@@ -144,3 +144,35 @@ body {
     grid-template-columns: 1fr;
   }
 }
+/* Кнопка удаления доски */
+.board-card {
+  position: relative;   /* ← добавь, если нет */
+}
+
+.board-delete {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--card);
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: all 0.2s;
+  z-index: 5;
+}
+
+.board-card:hover .board-delete {
+  opacity: 1;
+}
+
+.board-delete:hover {
+  background: #ff3b3b;
+  border-color: #ff3b3b;
+}

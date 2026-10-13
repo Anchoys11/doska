@@ -23,14 +23,14 @@ const ReactionsModule = (() => {
   document.addEventListener('click', (e) => {
     if (!currentReaction) return;
 
-    // Игнорируем клики по панели, чату, шапке
+    // Игнорируем панель, чат, шапку
     if (e.target.closest('.toolbar')) return;
     if (e.target.closest('.chat')) return;
     if (e.target.closest('.header')) return;
 
     // Клик по заметке
     const sticker = e.target.closest('.sticker');
-    if (sticker && !e.target.closest('.sticker-panel') && !e.target.closest('.color-menu') && !e.target.closest('.sticker-reactions')) {
+    if (sticker && !e.target.closest('.sticker-panel') && !e.target.closest('.color-menu') && !e.target.closest('.sticker-reactions') && !e.target.closest('.sticker-resize')) {
       if (typeof StickersModule !== 'undefined' && StickersModule.attachReaction) {
         StickersModule.attachReaction(sticker, currentReaction);
       }

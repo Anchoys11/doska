@@ -208,3 +208,8 @@ body {
     font-size: 14px;
   }
 }
+
+body.reacting,
+body.reacting * {
+  cursor: pointer !important;
+}

@@ -6,6 +6,8 @@ document.querySelectorAll('.tool[data-tool]').forEach((btn) => {
     btn.classList.add('active');
     CanvasModule.setTool(btn.dataset.tool);
     ReactionsModule.clearReaction();
+    document.body.classList.remove('reacting');
+    document.getElementById('reactionTrigger').textContent = '😊';
   });
 });
 
@@ -19,7 +21,7 @@ document.querySelectorAll('.size-option').forEach((btn) => {
 });
 
 // ===== ЦВЕТ =====
-document.querySelectorAll('.color-option').forEach((btn) => {
+document.querySelectorAll('.color-grid-item:not(.plus)').forEach((btn) => {
   btn.addEventListener('click', () => {
     document.getElementById('colorTrigger').style.background = btn.dataset.color;
     CanvasModule.setColor(btn.dataset.color);
@@ -34,9 +36,8 @@ if (colorPlus) {
     inp.type = 'color';
     inp.value = '#7c5cff';
     inp.addEventListener('input', () => {
-      const color = inp.value;
-      document.getElementById('colorTrigger').style.background = color;
-      CanvasModule.setColor(color);
+      document.getElementById('colorTrigger').style.background = inp.value;
+      CanvasModule.setColor(inp.value);
     });
     inp.click();
   });
@@ -50,6 +51,6 @@ document.querySelectorAll('.reaction-option').forEach((btn) => {
     btn.classList.add('active');
     ReactionsModule.setReaction(btn.dataset.emoji);
     document.getElementById('reactionTrigger').textContent = btn.dataset.emoji;
-    CanvasModule.canvas.style.cursor = 'pointer';
+    document.body.classList.add('reacting');
   });
 });

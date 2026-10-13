@@ -91,9 +91,8 @@ const CanvasModule = (() => {
   resize();
 
   canvas.addEventListener('mousedown', startDrawing);
-  canvas.addEventListener('mousemove', draw);
-  canvas.addEventListener('mouseup', stopDrawing);
-  canvas.addEventListener('mouseleave', stopDrawing);
+  document.addEventListener('mousemove', draw);   // ← было canvas
+  document.addEventListener('mouseup', stopDrawing);   // ← было canvas
 
   canvas.addEventListener('touchstart', (e) => {
     e.preventDefault();

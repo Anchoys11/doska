@@ -28,19 +28,33 @@ function renderBoards() {
   emptyMessage.classList.remove('show');
 
   boards.forEach((board) => {
-    const card = document.createElement('div');
-    card.className = 'board-card';
-    card.innerHTML = `
-      <div class="preview">📋</div>
-      <h3>${board.name}</h3>
-      <div class="date">${board.date}</div>
-    `;
-    card.addEventListener('click', () => {
-      Utils.setBoardName(board.name);
-      window.location.href = 'board.html';
-    });
-    grid.appendChild(card);
+  const card = document.createElement('div');
+  card.className = 'board-card';
+  card.innerHTML = `
+    <button class="board-delete" title="Удалить">🗑️</button>
+    <div class="preview">📋</div>
+    <h3>${board.name}</h3>
+    <div class="date">${board.date}</div>
+  `;
+  
+  card.addEventListener('click', (e) => {
+    if (e.target.closest('.board-delete')) return;
+    Utils.setBoardName(board.name);
+    window.location.href = 'board.html';
   });
+
+  // Кнопка удаления
+  card.querySelector('.board-delete').addEventListener('click', (e) => {
+    e.stopPropagation();
+    if (!confirm(`Удалить доску "${board.name}"?`)) return;
+    
+    boards = boards.filter(b => b.id !== board.id);
+    localStorage.setItem('myBoards', JSON.stringify(boards));
+    renderBoards();
+  });
+
+  grid.appendChild(card);
+});
 }
 
 renderBoards();

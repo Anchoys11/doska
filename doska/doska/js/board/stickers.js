@@ -24,7 +24,6 @@ const StickersModule = (() => {
     el.appendChild(content);
     el.appendChild(panel);
     el.appendChild(resizeHandle);
-
     wrapper.appendChild(el);
 
     setTimeout(() => {
@@ -56,7 +55,6 @@ const StickersModule = (() => {
       sel.addRange(savedSelection);
     }
 
-    // B / I / U
     ['bold', 'italic', 'underline'].forEach(cmd => {
       const btn = document.createElement('button');
       btn.innerHTML = cmd === 'bold' ? '<b>B</b>' : cmd === 'italic' ? '<i>I</i>' : '<u>U</u>';
@@ -70,7 +68,6 @@ const StickersModule = (() => {
       panel.appendChild(btn);
     });
 
-    // Размер
     const fontSize = document.createElement('select');
     fontSize.className = 'sticker-font-size';
     ['12', '14', '16', '20', '24', '32'].forEach(sz => {
@@ -85,7 +82,6 @@ const StickersModule = (() => {
     });
     panel.appendChild(fontSize);
 
-    // Цвет текста
     panel.appendChild(createColorPicker('A', (color) => {
       content.focus();
       restoreSelection();
@@ -93,12 +89,10 @@ const StickersModule = (() => {
       saveSelection();
     }, 'Цвет текста'));
 
-    // Цвет фона
     panel.appendChild(createColorPicker('🎨', (color) => {
       stickerEl.style.background = color;
     }, 'Цвет фона'));
 
-    // Удалить
     const del = document.createElement('button');
     del.innerHTML = '🗑️';
     del.addEventListener('mousedown', (e) => {
@@ -110,7 +104,7 @@ const StickersModule = (() => {
     return panel;
   }
 
-  // ===== ПАЛИТРА ЦВЕТОВ =====
+  // ===== ПАЛИТРА =====
   function createColorPicker(label, onPick, title) {
     const picker = document.createElement('div');
     picker.className = 'color-picker';
@@ -160,6 +154,7 @@ const StickersModule = (() => {
       if (e.target.closest('.sticker-panel')) return;
       if (e.target.closest('.color-menu')) return;
       if (e.target.closest('.sticker-resize')) return;
+      if (e.target.closest('.sticker-reactions')) return;
       if (typeof ReactionsModule !== 'undefined' && ReactionsModule.getReaction()) return;
 
       isDown = true;
@@ -173,7 +168,6 @@ const StickersModule = (() => {
 
     document.addEventListener('mousemove', (e) => {
       if (!isDown) return;
-
       const dx = e.clientX - startX;
       const dy = e.clientY - startY;
       const distance = Math.sqrt(dx * dx + dy * dy);
@@ -213,13 +207,46 @@ const StickersModule = (() => {
 
     document.addEventListener('mousemove', (e) => {
       if (!isResizing) return;
-      const w = Math.max(140, startW + (e.clientX - startX));
-      const h = Math.max(100, startH + (e.clientY - startY));
+      const w = Math.max(260, startW + (e.clientX - startX));
+      const h = Math.max(140, startH + (e.clientY - startY));
       el.style.width = w + 'px';
       el.style.height = h + 'px';
     });
 
     document.addEventListener('mouseup', () => { isResizing = false; });
+  }
+
+  // ===== РЕАКЦИИ НА ЗАМЕТКЕ =====
+  function attachReaction(stickerEl, emoji) {
+    let reactionsBar = stickerEl.querySelector('.sticker-reactions');
+    if (!reactionsBar) {
+      reactionsBar = document.createElement('div');
+      reactionsBar.className = 'sticker-reactions';
+      stickerEl.appendChild(reactionsBar);
+    }
+
+    let chip = reactionsBar.querySelector(`[data-emoji="${emoji}"]`);
+    if (chip) {
+      let count = parseInt(chip.dataset.count) + 1;
+      chip.dataset.count = count;
+      chip.textContent = `${emoji} ${count}`;
+    } else {
+      chip = document.createElement('button');
+      chip.className = 'reaction-chip';
+      chip.dataset.emoji = emoji;
+      chip.dataset.count = 1;
+      chip.textContent = `${emoji} 1`;
+      chip.addEventListener('click', (e) => {
+        e.stopPropagation();
+        let count = parseInt(chip.dataset.count) - 1;
+        if (count <= 0) chip.remove();
+        else {
+          chip.dataset.count = count;
+          chip.textContent = `${emoji} ${count}`;
+        }
+      });
+      reactionsBar.appendChild(chip);
+    }
   }
 
   // ===== ОЧИСТКА =====
@@ -237,42 +264,5 @@ const StickersModule = (() => {
     CanvasModule.setTool(null);
   });
 
-// ===== РЕАКЦИИ НА ЗАМЕТКЕ =====
-function attachReaction(stickerEl, emoji) {
-  let reactionsBar = stickerEl.querySelector('.sticker-reactions');
-  if (!reactionsBar) {
-    reactionsBar = document.createElement('div');
-    reactionsBar.className = 'sticker-reactions';
-    stickerEl.appendChild(reactionsBar);
-  }
-
-  // Ищем уже существующую реакцию с этим эмодзи
-  let chip = reactionsBar.querySelector(`[data-emoji="${emoji}"]`);
-  if (chip) {
-    // Увеличиваем счётчик
-    let count = parseInt(chip.dataset.count) + 1;
-    chip.dataset.count = count;
-    chip.textContent = `${emoji} ${count}`;
-  } else {
-    // Создаём новую
-    chip = document.createElement('button');
-    chip.className = 'reaction-chip';
-    chip.dataset.emoji = emoji;
-    chip.dataset.count = 1;
-    chip.textContent = `${emoji} 1`;
-    chip.addEventListener('click', (e) => {
-      e.stopPropagation();
-      let count = parseInt(chip.dataset.count) - 1;
-      if (count <= 0) chip.remove();
-      else {
-        chip.dataset.count = count;
-        chip.textContent = `${emoji} ${count}`;
-      }
-    });
-    reactionsBar.appendChild(chip);
-  }
-}
-
-return { create, clearAll, attachReaction };
+  return { create, clearAll, attachReaction };
 })();
-
