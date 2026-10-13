@@ -1,0 +1,74 @@
+.board-image {
+  position: absolute;
+  width: 240px;
+  height: auto;             /* ← высота по картинке */
+  min-width: 80px;
+  cursor: move;
+  user-select: none;
+  z-index: 10;
+  padding: 0;               /* ← убрать padding */
+}
+
+.board-image img {
+  display: block;           /* ← убрать строчный пробел */
+  width: 100%;
+  height: auto;             /* ← высота по пропорции */
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  pointer-events: none;
+}
+
+.image-resize {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 18px;
+  height: 18px;
+  cursor: nwse-resize;
+  background: var(--accent);
+  border-radius: 50%;
+  border: 2px solid var(--card);
+  z-index: 5;
+  transform: translate(50%, 50%);
+}
+
+.image-delete {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 2px solid var(--card);
+  background: #ff3b3b;
+  color: white;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 5;
+  opacity: 0;
+  transition: opacity 0.2s;
+  transform: translate(50%, -50%);
+}
+
+.board-image:hover .image-delete {
+  opacity: 1;
+}
+
+.image-delete:hover {
+  transform: translate(50%, -50%) scale(1.1);
+}
+
+/* ===== РЕАКЦИИ НА КАРТИНКАХ ===== */
+.image-reactions {
+  position: absolute;
+  bottom: -14px;
+  left: 8px;
+  display: flex;
+  gap: 4px;
+  z-index: 20;
+  pointer-events: auto;
+}
