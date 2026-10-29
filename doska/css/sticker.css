@@ -1,0 +1,268 @@
+/* ===== ЗАМЕТКИ (Листик с булавкой) ===== */
+.sticker {
+  position: absolute;
+  width: 220px;
+  height: 160px;
+  min-width: 260px;
+  min-height: 140px;
+  
+  border-radius: 4px;
+  
+  /* Мягкая тень, будто листик лежит на столе */
+  box-shadow: 
+    0 4px 8px rgba(0,0,0,0.1),
+    0 12px 24px rgba(0,0,0,0.1);
+              
+  display: flex;
+  flex-direction: column;
+  transition: box-shadow 0.3s ease;
+  z-index: 10;
+  
+  /* Нежный желтый фон */
+  background: #fff3b0; 
+}
+
+.sticker:hover {
+  box-shadow: 
+    0 6px 12px rgba(0,0,0,0.12),
+    0 16px 32px rgba(0,0,0,0.15);
+}
+
+/* ===== КРАСИВАЯ ОБЪЕМНАЯ БУЛАВКА ===== */
+.sticker::before {
+  content: '';
+  position: absolute;
+  top: -9px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 18px;
+  height: 18px;
+  
+  /* Градиент для объема */
+  background: radial-gradient(circle at 35% 35%, #ff8a8a 0%, #e53935 40%, #9a0000 100%);
+  border-radius: 50%;
+  
+  /* Тени: внешняя (падает на заметку) и внутренние для объема */
+  box-shadow: 
+    2px 4px 6px rgba(0,0,0,0.3), 
+    inset -2px -2px 5px rgba(0,0,0,0.4), 
+    inset 2px 2px 4px rgba(255,255,255,0.5);
+  z-index: 15;
+}
+
+/* Блик на булавке, чтобы было ощущение пластика */
+.sticker::after {
+  content: '';
+  position: absolute;
+  top: -5px;
+  left: calc(50% - 3px);
+  width: 5px;
+  height: 5px;
+  background: rgba(255,255,255,0.8);
+  border-radius: 50%;
+  z-index: 16;
+  pointer-events: none;
+}
+
+/* ===== КОНТЕНТ ЗАМЕТКИ ===== */
+.sticker-content {
+  flex: 1;
+  padding: 20px 16px 12px 16px;
+  font-size: 15px;
+  color: #3b3b3b;
+  outline: none;
+  cursor: move;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  overflow-y: auto;
+  line-height: 1.4;
+  min-height: 40px;
+  border-radius: 4px 4px 0 0;
+  background: transparent;
+  z-index: 2;
+}
+
+.sticker-content:focus {
+  cursor: text;
+}
+
+/* ===== ПАНЕЛЬ ЗАМЕТКИ ===== */
+.sticker-panel {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 8px;
+  background: rgba(0,0,0,0.04); /* Легкий темный фон для контраста */
+  border-top: 1px solid rgba(0,0,0,0.06);
+  flex-wrap: nowrap;
+  position: relative;
+  flex-shrink: 0;
+  height: 36px;
+  border-radius: 0 0 4px 4px;
+  z-index: 3;
+}
+
+/* ===== КНОПКИ ПАНЕЛИ ===== */
+.sticker-panel button {
+  width: 26px;
+  height: 26px;
+  border-radius: 6px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 13px;
+  color: #555;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s, color 0.15s;
+  flex-shrink: 0;
+  outline: none; /* Убираем рамку */
+}
+
+.sticker-panel button:hover {
+  background: rgba(0,0,0,0.08);
+  color: #111;
+}
+
+/* Выпадающий список размера */
+.sticker-font-size {
+  width: 44px;
+  height: 26px;
+  border-radius: 6px;
+  border: none;
+  background: transparent;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  color: #555;
+  flex-shrink: 0;
+  outline: none;
+  padding-left: 4px;
+}
+.sticker-font-size:hover {
+  background: rgba(0,0,0,0.08);
+}
+
+/* ===== ЦВЕТА В ЗАМЕТКЕ ===== */
+.color-picker {
+  position: relative;
+  width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  color: #555;
+  flex-shrink: 0;
+  transition: background 0.15s;
+}
+
+.color-picker:hover {
+  background: rgba(0,0,0,0.08);
+  color: #111;
+}
+
+.color-picker > span {
+  font-weight: 700;
+}
+
+/* Меню палитры */
+.color-menu {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: -10px;
+  background: white;
+  border: 1px solid #eaeaea;
+  border-radius: 12px;
+  padding: 8px;
+  display: none;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+  z-index: 9999 !important;   /* Чтобы перекрывало всё */
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+}
+
+.color-picker:hover .color-menu {
+  display: grid;
+}
+
+.color-menu-item {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: transform 0.15s, box-shadow 0.15s;
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,0.1);
+}
+
+.color-menu-item:hover {
+  transform: scale(1.2);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+/* Кнопка "Свой цвет" (+) */
+.color-menu-plus {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 1px dashed #bbb;
+  background: transparent;
+  cursor: pointer;
+  font-size: 14px;
+  color: #888;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.color-menu-plus:hover {
+  border-color: #7c5cff;
+  color: #7c5cff;
+  background: #f0ebff;
+}
+
+/* ===== УГОЛОК ДЛЯ РЕСАЙЗА ===== */
+.sticker-resize {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 20px;
+  height: 20px;
+  cursor: nwse-resize;
+  z-index: 20;
+  background: transparent;
+}
+
+/* Полосочки ресайза */
+.sticker-resize::after {
+  content: '';
+  position: absolute;
+  bottom: 4px;
+  right: 4px;
+  width: 8px;
+  height: 8px;
+  border-right: 2px solid rgba(0,0,0,0.25);
+  border-bottom: 2px solid rgba(0,0,0,0.25);
+  border-radius: 0 0 2px 0;
+}
+
+/* ===== РЕАКЦИИ НА ЗАМЕТКАХ ===== */
+.sticker-reactions {
+  position: absolute;
+  bottom: -28px;
+  left: 0;
+  display: flex;
+  gap: 6px;
+  z-index: 20;
+  pointer-events: auto;
+  white-space: nowrap;
+  height: 24px;
+  align-items: center;
+}

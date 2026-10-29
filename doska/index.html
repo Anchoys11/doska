@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Доска — Регистрация</title>
+  <link rel="stylesheet" href="css/theme.css">
+  <link rel="stylesheet" href="css/auth.css">
+  <script src="https://unpkg.com/feather-icons"></script>
+</head>
+<body>
+  <button class="theme-toggle" id="themeToggle" title="Сменить тему"><i data-feather="moon"></i></button>
+<!-- Для кнопки внутри шапки: -->
+
+  <div class="container">
+  <h1>Доска</h1>
+  <p class="subtitle" id="subtitle">Создайте аккаунт</p>
+
+  <!-- Форма РЕГИСТРАЦИИ -->
+  <form id="registerForm">
+  <input type="text" id="regName" placeholder="Ваше имя" required>
+  <input type="email" id="regEmail" placeholder="Email" required>
+  <input type="password" id="regPassword" placeholder="Пароль" required>
+  <input type="password" id="regPassword2" placeholder="Повторите пароль" required>
+  <button type="submit">Зарегистрироваться</button>
+</form>
+
+  <!-- Форма ВХОДА (скрыта) -->
+  <form id="loginForm" style="display: none;">
+    <input type="email" id="logEmail" placeholder="Email" required>
+    <input type="password" id="logPassword" placeholder="Пароль" required>
+    <button type="submit">Войти</button>
+  </form>
+
+  <p class="link">
+    <span id="linkText">Уже есть аккаунт?</span>
+    <a href="#" id="switchLink">Войти</a>
+  </p>
+</div>
+
+ <script src="js/common.js"></script>
+<script src="js/auth.js"></script>
+</body>
+</html>

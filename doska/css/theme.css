@@ -1,0 +1,186 @@
+/* ===== ПЕРЕМЕННЫЕ ТЕМ ===== */
+:root {
+  --accent: #7c5cff;
+  --accent-2: #4a7dff;
+}
+
+[data-theme="light"] {
+  --bg: #f5f6fa;
+  --card: #ffffff;
+  --text: #1a1a2e;
+  --text-muted: #888;
+  --border: #e2e4ec;
+  --input-bg: #fafbff;
+}
+
+[data-theme="dark"] {
+  --bg: #0f0f1a;
+  --card: #1a1a2e;
+  --text: #eaeaf5;
+  --text-muted: #8a8aa0;
+  --border: #2a2a42;
+  --input-bg: #12121f;
+}
+
+/* ===== БАЗА ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+}
+
+body {
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--text);
+  transition: background 0.3s, color 0.3s;
+}
+
+/* ===== КНОПКА ТЕМЫ (круглая) ===== */
+.theme-toggle {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--text);
+  font-size: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  z-index: 100;
+}
+
+.theme-toggle:hover {
+  border-color: var(--accent);
+  transform: scale(1.05);
+}
+
+/* ===== КНОПКА ТЕМЫ (в шапке) ===== */
+.theme-toggle-inline {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--input-bg);
+  color: var(--text);
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.theme-toggle-inline:hover {
+  border-color: var(--accent);
+}
+
+/* ===== ШАПКА ===== */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 24px;
+  background: var(--card);
+  border-bottom: 1px solid var(--border);
+  transition: background 0.3s, border 0.3s;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* ===== ОБЩИЕ ПОЛЯ ВВОДА ===== */
+input {
+  padding: 12px 16px;
+  background: var(--input-bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  font-size: 15px;
+  color: var(--text);
+  outline: none;
+  transition: border 0.2s;
+}
+
+input::placeholder {
+  color: var(--text-muted);
+}
+
+input:focus {
+  border-color: var(--accent);
+}
+
+/* ===== АДАПТИВ ШАПКИ ===== */
+@media (max-width: 600px) {
+  .header {
+    padding: 12px 16px;
+  }
+}
+
+/* ===== АНИМАЦИИ И ПЕРЕЛИВЫ ===== */
+@keyframes gradientMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Кнопки, которые светятся и переливаются */
+.btn-create, .btn-invite, button[type="submit"] {
+  background: linear-gradient(135deg, var(--accent), var(--accent-2), var(--accent));
+  background-size: 200% 200%;
+  animation: gradientMove 3s ease infinite;
+  border: none;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.btn-create:hover, .btn-invite:hover, button[type="submit"]:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(124, 92, 255, 0.4);
+}
+
+/* Красивые иконки везде */
+svg.feather {
+  width: 18px;
+  height: 18px;
+  stroke-width: 2px;
+  stroke: currentColor;
+  fill: none;
+  transition: transform 0.2s;
+}
+
+button:hover svg.feather {
+  transform: scale(1.1);
+}
+
+svg.feather {
+  width: 18px;
+  height: 18px;
+  stroke-width: 2px;
+  stroke: currentColor;
+  fill: none;
+  transition: transform 0.2s, stroke 0.2s;
+  vertical-align: middle;
+}
+
+button:hover svg.feather {
+  transform: scale(1.1);
+}
+
+/* Кнопки на досках (Поделиться, Удалить) */
+.board-share, .board-delete {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+}
+.board-share:hover { color: var(--accent); }
+.board-delete:hover { color: #ff3b3b; }

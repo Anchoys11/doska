@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Доска — Рисование</title>
+  <link rel="stylesheet" href="css/theme.css">
+  <link rel="stylesheet" href="css/board.css">
+  <link rel="stylesheet" href="css/toolbar.css">
+  <link rel="stylesheet" href="css/sticker.css">
+  <link rel="stylesheet" href="css/image.css">
+  <script src="https://unpkg.com/feather-icons"></script>
+</head>
+<body class="board-body">
+  <header class="header">
+    <div class="header-left">
+      <button class="btn-back" id="backBtn"><i data-feather="arrow-left"></i> Назад</button>
+      <span class="board-name" id="boardName" contenteditable="true" title="Нажмите, чтобы изменить название">Мозговой штурм</span>
+    </div>
+    <div class="header-right">
+      <button class="btn-invite" id="inviteBtn"><i data-feather="share-2"></i> Пригласить</button>
+      <button class="theme-toggle-inline" id="themeToggle" title="Сменить тему"><i data-feather="moon"></i></button>
+    </div>
+  </header>
+
+  <div class="board-layout">
+    <aside class="toolbar">
+      <button class="tool active" data-tool="hand" title="Перемещение"><i data-feather="move"></i></button>
+      <button class="tool active" data-tool="pen" title="Карандаш"><i data-feather="edit-3"></i></button>
+      <button class="tool" data-tool="eraser" title="Ластик"><i data-feather="square"></i></button>
+      <button class="tool" data-tool="sticker" title="Заметка"><i data-feather="file-text"></i></button>
+      <button class="tool" data-tool="image" title="Картинка"><i data-feather="image"></i></button>
+      <button class="tool" data-tool="file" title="Файл"><i data-feather="paperclip"></i></button>
+
+      <div class="toolbar-divider"></div>
+
+      <div class="dropdown" id="sizeDropdown">
+        <button class="dropdown-trigger" id="sizeTrigger" title="Размер"><i data-feather="sliders"></i></button>
+        <div class="dropdown-menu size-menu" id="sizeMenu">
+          <button class="size-option active" data-size="1"><span style="width:4px;height:4px"></span></button>
+          <button class="size-option" data-size="2"><span style="width:8px;height:8px"></span></button>
+          <button class="size-option" data-size="4"><span style="width:14px;height:14px"></span></button>
+          <button class="size-option" data-size="8"><span style="width:22px;height:22px"></span></button>
+        </div>
+      </div>
+
+      <div class="dropdown" id="colorDropdown">
+        <button class="dropdown-trigger" id="colorTrigger" style="background:#7c5cff"></button>
+        <div class="dropdown-menu color-menu-grid" id="colorMenu">
+          <button class="color-grid-item" data-color="#1a1a2e" style="background:#1a1a2e"></button>
+          <button class="color-grid-item" data-color="#7c5cff" style="background:#7c5cff"></button>
+          <button class="color-grid-item" data-color="#4a7dff" style="background:#4a7dff"></button>
+          <button class="color-grid-item" data-color="#ff5c8a" style="background:#ff5c8a"></button>
+          <button class="color-grid-item" data-color="#ffb84a" style="background:#ffb84a"></button>
+          <button class="color-grid-item" data-color="#4ad9a0" style="background:#4ad9a0"></button>
+          <button class="color-grid-item" data-color="#ff3b3b" style="background:#ff3b3b"></button>
+          <button class="color-grid-item plus" id="colorPlus" title="Свой цвет">+</button>
+        </div>
+      </div>
+
+      <div class="dropdown" id="reactionDropdown">
+        <button class="dropdown-trigger" id="reactionTrigger" title="Реакции"><i data-feather="smile"></i></button>
+        <div class="dropdown-menu reaction-menu" id="reactionMenu">
+          <button class="reaction-option" data-emoji="👍">👍</button>
+          <button class="reaction-option" data-emoji="❤️">❤️</button>
+          <button class="reaction-option" data-emoji="😂">😂</button>
+          <button class="reaction-option" data-emoji="🎉">🎉</button>
+          <button class="reaction-option" data-emoji="🔥">🔥</button>
+          <button class="reaction-option" data-emoji="👏">👏</button>
+        </div>
+      </div>
+
+      <div class="toolbar-divider"></div>
+
+      <button class="tool" id="clearBtn" title="Очистить"><i data-feather="trash-2"></i></button>
+    </aside>
+
+    <input type="file" id="imageInput" accept="image/*" hidden>
+    <input type="file" id="fileInput" hidden>
+
+    <!-- Холст -->
+    <div class="canvas-wrapper" id="canvasWrapper">
+      <div class="canvas-objects" id="canvasObjects"></div>
+      <canvas id="board"></canvas>
+    </div>
+
+    <aside class="chat collapsed" id="chatPanel">
+      <div class="chat-header">
+        <h3>Чат</h3>
+        <button class="chat-toggle" id="chatToggle" title="Свернуть"><i data-feather="chevron-right"></i></button>
+      </div>
+      <div class="chat-messages" id="chatMessages">
+        <p class="chat-empty">Сообщений пока нет</p>
+      </div>
+      <div class="chat-input">
+        <div class="chat-emoji-picker">
+          <button class="chat-emoji-btn" id="chatEmojiBtn" title="Смайлики"><i data-feather="smile"></i></button>
+          <div class="chat-emoji-menu" id="chatEmojiMenu">
+            <button class="chat-emoji-item">😊</button>
+            <button class="chat-emoji-item">😂</button>
+            <button class="chat-emoji-item">❤️</button>
+            <button class="chat-emoji-item">👍</button>
+            <button class="chat-emoji-item">🔥</button>
+            <button class="chat-emoji-item">🎉</button>
+            <button class="chat-emoji-item">😍</button>
+            <button class="chat-emoji-item">🤔</button>
+            <button class="chat-emoji-item">😎</button>
+            <button class="chat-emoji-item">😢</button>
+            <button class="chat-emoji-item">😡</button>
+            <button class="chat-emoji-item">👏</button>
+            <button class="chat-emoji-item">💯</button>
+            <button class="chat-emoji-item">✨</button>
+            <button class="chat-emoji-item">🎨</button>
+          </div>
+        </div>
+        <input type="text" id="chatInput" placeholder="Написать...">
+        <button id="chatSend"><i data-feather="send"></i></button>
+      </div>
+    </aside>
+    <button class="chat-open visible" id="chatOpen" title="Открыть чат"><i data-feather="message-circle"></i></button>
+  </div>
+
+<script src="js/common.js"></script>
+<script src="js/board/canvas.js"></script>
+<script src="js/board/stickers.js"></script>
+<script src="js/board/images.js"></script>
+<script src="js/board/files.js"></script>
+<script src="js/board/reactions.js"></script>
+<script src="js/board/ui.js"></script>
+<script src="js/board/chat.js"></script>
+<script src="js/board/main.js"></script>
+<script>feather.replace()</script>
+</body>
+</html>
