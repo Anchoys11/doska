@@ -1,0 +1,155 @@
+/* ===== СПИСОК ДОСОК ===== */
+body {
+  display: block;
+  padding: 0;
+}
+
+.logo {
+  font-size: 20px;
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ===== ПРОФИЛЬ ПОЛЬЗОВАТЕЛЯ ===== */
+.user-email { 
+  font-size: 14px; 
+  color: var(--text-muted); 
+  font-weight: 500;
+}
+
+.btn-logout {
+  padding: 8px 16px;
+  background: var(--input-bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-logout:hover { 
+  border-color: #ff3b3b; 
+  color: #ff3b3b; 
+  background: rgba(255, 59, 59, 0.1);
+}
+
+.main {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 32px 24px;
+  width: 100%;
+}
+
+.main-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.main-header h2 { font-size: 24px; font-weight: 700; color: var(--text); }
+.btn-create { padding: 10px 20px; font-size: 14px; }
+
+/* Сетка */
+.boards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 16px;
+}
+
+/* ===== КАРТОЧКИ ДОСОК ===== */
+.board-card {
+  position: relative; /* Важно для кнопок внутри */
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-height: 140px;
+  padding: 20px;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  
+  /* Стеклянный эффект */
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+[data-theme="dark"] .board-card {
+  background: rgba(26, 26, 46, 0.6);
+}
+
+.board-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-5px) scale(1.02);
+  box-shadow: 0 15px 30px rgba(0,0,0,0.08);
+}
+
+[data-theme="dark"] .board-card:hover {
+  box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+}
+
+.board-card h3 { font-size: 17px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+.board-card .date { font-size: 13px; color: var(--text-muted); margin-top: auto; }
+.board-card .preview { flex: 1; display: flex; align-items: center; justify-content: center; opacity: 0.4; }
+
+/* Кнопки на карточке */
+.board-actions {
+  position: absolute;
+  top: 8px; right: 8px;
+  display: flex; gap: 4px;
+  opacity: 0; 
+  transition: opacity 0.2s;
+  z-index: 10;
+}
+
+.board-card:hover .board-actions { opacity: 1; }
+
+.board-share, .board-delete {
+  width: 32px; height: 32px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--text-muted);
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s;
+}
+
+.board-share:hover { border-color: var(--accent); color: var(--accent); }
+.board-delete:hover { border-color: #ff3b3b; color: #ff3b3b; }
+
+/* Пустое состояние */
+.empty { text-align: center; color: var(--text-muted); padding: 60px 20px; display: none; }
+.empty.show { display: block; }
+
+@media (max-width: 600px) {
+  .user-email { display: none; }
+  .main { padding: 20px 16px; }
+  .main-header h2 { font-size: 20px; }
+  .boards-grid { grid-template-columns: 1fr; }
+}
+
+/* Скелетон для загрузки */
+.skeleton {
+  background: linear-gradient(90deg, var(--input-bg) 25%, var(--border) 50%, var(--input-bg) 75%);
+  background-size: 200% 100%;
+  animation: skeletonLoading 1.5s infinite;
+  border-radius: 14px;
+  height: 140px;
+}
+
+@keyframes skeletonLoading {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
