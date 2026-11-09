@@ -1,0 +1,149 @@
+/* ===== МОБИЛЬНАЯ ВЕРСИЯ (Адаптив) ===== */
+@media (max-width: 768px) {
+  
+  /* 1. Кнопка темы (на всех страницах) */
+  .theme-toggle {
+    position: fixed !important;
+    top: 16px !important;
+    right: 16px !important;
+    left: auto !important;
+    transform: none !important;
+    width: 40px !important;
+    height: 40px !important;
+    z-index: 9999 !important;
+  }
+
+  /* 2. Шапка (Header) */
+  .header {
+    padding: 10px 12px;
+  }
+  
+  .header-left { gap: 8px; }
+  
+  .btn-back span { display: none; } /* Скрываем текст "Назад" */
+  
+  .board-name {
+    font-size: 14px;
+    max-width: 120px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .btn-invite { padding: 8px; }
+  .btn-invite span { display: none; } /* Скрываем текст "Пригласить" */
+  .header-right { gap: 8px; }
+
+  /* 3. Панель инструментов (переносим вниз) */
+  .board-layout {
+    flex-direction: column-reverse; /* Меняем направление */
+    height: calc(100vh - 60px);
+  }
+
+  .toolbar {
+    width: 100%;
+    height: 60px;
+    flex-direction: row; /* Кнопки в ряд */
+    justify-content: space-around;
+    border-right: none;
+    border-top: 1px solid var(--border);
+    padding: 8px;
+    gap: 0;
+    z-index: 200;
+  }
+
+  .toolbar-divider {
+    width: 1px;
+    height: 32px;
+    margin: 0 4px;
+  }
+
+  .tool, .dropdown-trigger {
+    width: 40px;
+    height: 40px;
+    touch-action: manipulation; /* Убирает задержку клика на тач-экранах */
+  }
+
+  /* Меню инструментов (Цвета, размер) открываем ВВЕРХ */
+  .dropdown-menu {
+    left: 50%;
+    top: auto;
+    bottom: calc(100% + 10px);
+    transform: translateX(-50%) translateY(10px);
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  .dropdown:hover .dropdown-menu {
+    opacity: 1; 
+    visibility: visible; 
+    transform: translateX(-50%) translateY(0);
+  }
+
+  .color-menu-grid {
+    grid-template-columns: repeat(4, 1fr) !important;
+    width: 220px;
+  }
+
+  /* 4. Холст */
+  .canvas-wrapper {
+    height: 100%;
+  }
+
+  /* 5. Чат (выезжает сбоку на весь экран) */
+  .chat {
+    position: fixed;
+    top: 0;
+    right: -100%; /* Спрятан */
+    width: 100%;
+    height: 100vh;
+    z-index: 1000;
+    transition: right 0.3s ease;
+    border-left: none;
+  }
+
+  .chat.collapsed {
+    width: 100%;
+    right: -100%;
+  }
+
+  .chat:not(.collapsed) {
+    right: 0; /* Выехал */
+  }
+
+  /* Кнопка открытия чата */
+  .chat-open {
+    bottom: 80px; /* Над тулбаром */
+    right: 16px;
+    width: 52px;
+    height: 52px;
+    touch-action: manipulation;
+  }
+
+  /* Кнопка закрытия чата */
+  .chat-toggle {
+    width: 36px;
+    height: 36px;
+    background: var(--input-bg);
+  }
+  
+  .chat-toggle svg {
+    transform: rotate(180deg);
+  }
+
+  /* 6. Стикеры и картинки */
+  .sticker-resize, .image-resize {
+    width: 24px;
+    height: 24px;
+  }
+
+  /* 7. Модалка */
+  .modal {
+    width: 90%;
+    padding: 20px;
+  }
+
+    /* Кнопки на карточках досок на телефоне всегда видны */
+  .board-actions {
+    opacity: 1; /* Убираем скрытие */
+  }
+}

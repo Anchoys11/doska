@@ -1,0 +1,160 @@
+/* ===== ПЕРЕМЕННЫЕ ТЕМ ===== */
+:root {
+  --accent: #7c5cff;
+  --accent-2: #4a7dff;
+}
+
+[data-theme="light"] {
+  --bg: #f5f6fa;
+  --card: #ffffff;
+  --text: #1a1a2e;
+  --text-muted: #888;
+  --border: #e2e4ec;
+  --input-bg: #fafbff;
+}
+
+[data-theme="dark"] {
+  --bg: #0f0f1a;
+  --card: #1a1a2e;
+  --text: #eaeaf5;
+  --text-muted: #8a8aa0;
+  --border: #2a2a42;
+  --input-bg: #12121f;
+}
+
+/* ===== БАЗА И ГРАДИЕНТ ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+}
+
+body {
+  min-height: 100vh;
+  color: var(--text);
+  transition: background 0.3s, color 0.3s;
+  position: relative;
+  overflow-x: hidden;
+  
+  /* Светлая тема - мягкий перелив */
+  background: linear-gradient(135deg, #f5f6fa 0%, #e9ecf5 50%, #f5f6fa 100%);
+  background-size: 200% 200%;
+  animation: bgGradientMove 15s ease infinite;
+}
+
+[data-theme="dark"] body {
+  background: linear-gradient(135deg, #0f0f1a 0%, #161628 50%, #0f0f1a 100%);
+  background-size: 200% 200%;
+  animation: bgGradientMove 15s ease infinite;
+}
+
+@keyframes bgGradientMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* ===== СТЕКЛЯННАЯ ШАПКА ===== */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 24px;
+  border-bottom: 1px solid var(--border);
+  z-index: 100;
+  position: relative;
+  
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+[data-theme="dark"] .header {
+  background: rgba(26, 26, 46, 0.7);
+}
+
+.header-right { display: flex; flex-direction: row; align-items: center; gap: 16px; }
+
+/* ===== КНОПКИ ===== */
+/* ===== КРУГЛАЯ КНОПКА ТЕМЫ (для страницы регистрации) ===== */
+.theme-toggle {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  left: auto; /* Прибито к правому краю */
+  width: 44px; 
+  height: 44px; 
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--card); 
+  color: var(--text);
+  cursor: pointer; 
+  display: flex; 
+  align-items: center; 
+  justify-content: center;
+  transition: all 0.2s;
+  z-index: 1000;
+}
+
+.theme-toggle:hover { 
+  border-color: var(--accent); 
+  color: var(--accent); 
+  transform: scale(1.05);
+}
+
+/* ===== КНОПКА ТЕМЫ В ШАПКЕ (для страницы досок) ===== */
+.theme-toggle-inline {
+  width: 36px; 
+  height: 36px; 
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--input-bg); 
+  color: var(--text);
+  cursor: pointer; 
+  display: flex; 
+  align-items: center; 
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.theme-toggle-inline:hover { 
+  border-color: var(--accent); 
+  color: var(--accent); 
+}
+@keyframes gradientMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.btn-create, .btn-invite, button[type="submit"] {
+  background: linear-gradient(135deg, var(--accent), var(--accent-2), var(--accent));
+  background-size: 200% 200%;
+  animation: gradientMove 3s ease infinite;
+  border: none; color: white; cursor: pointer; border-radius: 10px; font-weight: 600;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.btn-create:hover, .btn-invite:hover, button[type="submit"]:hover {
+  transform: translateY(-2px); box-shadow: 0 8px 20px rgba(124, 92, 255, 0.4);
+}
+
+/* ===== ИКОНКИ ===== */
+svg.feather {
+  width: 18px; height: 18px; stroke-width: 2px; stroke: currentColor; fill: none;
+  transition: transform 0.2s, stroke 0.2s; vertical-align: middle;
+}
+button:hover svg.feather { transform: scale(1.1); }
+button { outline: none !important; }
+button:focus { outline: none !important; }
+
+/* ===== ПОЛЯ ВВОДА ===== */
+input {
+  padding: 12px 16px; background: var(--input-bg); border: 1px solid var(--border);
+  border-radius: 10px; font-size: 15px; color: var(--text); outline: none; transition: border 0.2s;
+}
+input:focus { border-color: var(--accent); }
+
+@media (max-width: 600px) {
+  .header { padding: 12px 16px; }
+}

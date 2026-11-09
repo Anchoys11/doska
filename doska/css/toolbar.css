@@ -1,0 +1,130 @@
+/* ===== ПАНЕЛЬ ИНСТРУМЕНТОВ (Стеклянная) ===== */
+.toolbar {
+  width: 64px;
+  border-right: 1px solid var(--border);
+  padding: 16px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+  z-index: 100;
+  
+  /* Стеклянный эффект */
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+[data-theme="dark"] .toolbar {
+  background: rgba(26, 26, 46, 0.5);
+}
+
+.tool {
+  width: 44px; height: 44px; border-radius: 10px; border: 1px solid transparent;
+  background: transparent; cursor: pointer; display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s; color: var(--text);
+}
+
+.tool:hover { background: var(--input-bg); }
+.tool.active { background: var(--input-bg); border-color: var(--accent); }
+.toolbar-divider { width: 32px; height: 1px; background: var(--border); margin: 8px 0; }
+
+/* ===== DROPDOWN ===== */
+.dropdown { position: relative; width: 44px; height: 44px; }
+.dropdown-trigger {
+  width: 44px; height: 44px; border-radius: 10px; border: 1px solid var(--border);
+  background: transparent; cursor: pointer; display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s; color: var(--text);
+}
+.dropdown-trigger:hover { border-color: var(--accent); }
+
+/* Выпадающие меню (Стеклянные) */
+.dropdown-menu {
+  position: absolute; left: calc(100% + 8px); top: 0; 
+  border: 1px solid var(--border); border-radius: 12px; padding: 8px;
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px;
+  opacity: 0; visibility: hidden; transform: translateX(-10px);
+  transition: all 0.2s; z-index: 9999 !important; 
+  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+  
+  /* Стекло */
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+}
+
+[data-theme="dark"] .dropdown-menu {
+  background: rgba(26, 26, 46, 0.85);
+}
+
+.dropdown:hover .dropdown-menu { opacity: 1; visibility: visible; transform: translateX(0); }
+
+/* ===== РЕАКЦИИ ===== */
+.reaction-menu { grid-template-columns: repeat(3, 1fr); }
+.reaction-option {
+  width: 36px; height: 36px; border-radius: 8px; border: 1px solid transparent;
+  background: transparent; font-size: 20px; cursor: pointer; display: flex; align-items: center; justify-content: center;
+  transition: all 0.15s;
+}
+.reaction-option:hover { background: var(--input-bg); transform: scale(1.15); }
+.reaction-option.active { background: var(--input-bg); border-color: var(--accent); }
+
+/* ===== РАЗМЕР ===== */
+.size-menu { grid-template-columns: 1fr; }
+.size-option {
+  width: 44px; height: 36px; border-radius: 8px; border: 1px solid transparent;
+  background: transparent; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.15s;
+}
+.size-option span { background: var(--text); border-radius: 50%; display: block; }
+.size-option:hover { background: var(--input-bg); }
+.size-option.active { background: var(--input-bg); border-color: var(--accent); }
+
+/* ===== СЕТКА ЦВЕТОВ ===== */
+.color-menu-grid {
+  display: grid !important; grid-template-columns: repeat(3, 1fr) !important;
+  gap: 8px !important; padding: 12px !important; 
+  border-radius: 16px !important; border: 1px solid var(--border) !important;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.15) !important;
+  
+  background: rgba(255, 255, 255, 0.9) !important;
+  backdrop-filter: blur(15px) !important;
+}
+
+[data-theme="dark"] .color-menu-grid {
+  background: rgba(26, 26, 46, 0.9) !important;
+}
+
+.color-grid-item {
+  width: 44px; height: 44px; border-radius: 12px; border: 2px solid transparent;
+  cursor: pointer; padding: 0; transition: transform 0.15s, border-color 0.15s;
+}
+.color-grid-item:hover { transform: scale(1.08); border-color: var(--accent); }
+.color-grid-item.plus {
+  background: transparent; border: 2px dashed var(--border);
+  color: var(--text-muted); font-size: 22px; display: flex; align-items: center; justify-content: center;
+}
+.color-grid-item.plus:hover { border-color: var(--accent); color: var(--accent); }
+
+/* ===== ИКОНКИ ===== */
+.tool svg, 
+.dropdown-trigger svg {
+  pointer-events: none; 
+  width: 20px; 
+  height: 20px;
+  stroke: var(--text) !important;
+  color: var(--text) !important;
+  transition: transform 0.2s, stroke 0.2s;
+}
+
+.tool:hover svg { transform: scale(1.1); }
+
+.tool.active svg,
+.dropdown:hover .dropdown-trigger svg {
+  stroke: var(--accent) !important;
+  color: var(--accent) !important;
+}
+
+#reactionTrigger {
+  color: var(--text);
+}
