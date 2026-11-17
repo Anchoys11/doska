@@ -1,0 +1,41 @@
+/* ===== РЕАКЦИИ НА ОБЪЕКТАХ ДОСКИ ===== */
+.object-reactions {
+  position: absolute; bottom: -30px; left: 0;
+  display: flex; flex-wrap: nowrap; gap: 6px; z-index: 20;
+  font-size: 13px; line-height: 1.2; pointer-events: auto;
+}
+
+.reaction-chip {
+  background: var(--card); border: 1px solid var(--border); border-radius: 14px;
+  padding: 3px 10px; font-size: 13px; line-height: 1.3; font-weight: 600; cursor: pointer;
+  display: inline-flex; align-items: center; gap: 4px; white-space: nowrap;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1); color: var(--text); outline: none; user-select: none;
+  transition: transform 0.2s, border-color 0.2s, background 0.2s;
+  animation: chipPop 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.reaction-chip:hover { transform: scale(1.08); border-color: var(--accent); }
+.reaction-chip.active-user { border-color: var(--accent); background: rgba(124, 92, 255, 0.14); }
+.reaction-chip span { font-size: 11px; color: var(--text-muted); }
+.reaction-chip.active-user span { color: var(--accent); }
+
+@keyframes chipPop {
+  from { opacity: 0; transform: scale(0.6); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* ===== ЭМОДЗИ, ВСПЛЫВАЮЩИЙ НА ДОСКЕ ===== */
+.canvas-objects > .floating-emoji {
+  position: absolute; z-index: 50; pointer-events: none; user-select: none;
+  font-size: 36px; line-height: 1;
+  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.25));
+  animation: floatUp 1.8s ease-out forwards;
+}
+@keyframes floatUp {
+  0%   { opacity: 0; transform: translate(-50%, -30%) scale(0.4); }
+  15%  { opacity: 1; transform: translate(-50%, -60%) scale(1.25); }
+  100% { opacity: 0; transform: translate(-50%, -220%) scale(1); }
+}
+
+/* ===== РЕЖИМ «СТАВИМ РЕАКЦИЮ» ===== */
+.reacting #board, .reacting .sticker, .reacting .board-image, .reacting .board-file { cursor: crosshair; }
+.reacting .sticker-content { pointer-events: none; user-select: none; cursor: crosshair; }

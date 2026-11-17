@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f5f6fa" id="themeColor">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Доска">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="format-detection" content="telephone=no">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <title>Доска — Мои доски</title>
+  
+  <!-- Стили -->
+  <link rel="stylesheet" href="css/theme.css">
+  <link rel="stylesheet" href="css/boards.css">
+  <link rel="stylesheet" href="css/modal.css">
+  <link rel="stylesheet" href="css/boards-modal.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/mobile.css">
+  
+  <!-- Иконки -->
+  <script>try{document.documentElement.setAttribute("data-theme",localStorage.getItem("theme")||"light")}catch(e){}</script>
+  <script>try{if(!localStorage.getItem("userEmail"))location.replace("index.html")}catch(e){}</script>
+  <script src="https://unpkg.com/feather-icons@4.29.0/dist/feather.min.js"></script>
+</head>
+<body class="app-body">
+  <header class="header">
+    <div class="logo">Доска</div>
+    <div class="header-right">
+      <!-- Выводим имя пользователя -->
+      <span class="user-name" id="userNameDisplay">Имя</span>
+      <button class="btn-install" id="installBtn" title="Установить приложение" hidden><i data-feather="download"></i><span>Установить</span></button>
+      <button class="theme-toggle-inline" id="themeToggle" title="Сменить тему"><i data-feather="moon"></i></button>
+      <button class="btn-logout" id="logoutBtn">Выйти</button>
+    </div>
+  </header>
+
+  <main class="main">
+    <div class="main-header">
+      <h2>Мои доски</h2>
+      <button class="btn-create" id="createBtn">+ Создать доску</button>
+    </div>
+
+    <div class="boards-grid" id="boardsGrid">
+      <!-- Сюда JS будет вставлять доски -->
+    </div>
+
+    <p class="empty" id="emptyMessage">У вас пока нет досок. Создайте первую!</p>
+  </main>
+
+  <!-- Как установить на iPhone / iPad -->
+  <div class="modal-overlay" id="installModal">
+    <div class="modal">
+      <h2>Установить на телефон</h2>
+      <p>Так «Доска» будет открываться как обычное приложение, на весь экран:</p>
+      <ol class="install-steps">
+        <li>Нажмите «Поделиться» в Safari (квадрат со стрелкой вверх)</li>
+        <li>Выберите «На экран «Домой»»</li>
+        <li>Нажмите «Добавить»</li>
+      </ol>
+      <div class="modal-actions">
+        <button class="btn-confirm" id="installOkBtn">Понятно</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="createBoardModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h2>Новая доска</h2>
+      <label class="upload-icon-btn" title="Загрузить свою картинку">
+        <i data-feather="image"></i>
+        <input type="file" id="coverInput" accept="image/*" hidden>
+      </label>
+    </div>
+    <p>Введите название и выберите иконку</p>
+    
+    <!-- Сетка эмодзи -->
+    <div class="emoji-grid" id="boardEmojiSelector">
+      <button class="emoji-btn active" data-emoji="📋">📋</button>
+      <button class="emoji-btn" data-emoji="🧠">🧠</button>
+      <button class="emoji-btn" data-emoji="🚀">🚀</button>
+      <button class="emoji-btn" data-emoji="🎨">🎨</button>
+      <button class="emoji-btn" data-emoji="💻">💻</button>
+      <button class="emoji-btn" data-emoji="🔥">🔥</button>
+      <button class="emoji-btn" data-emoji="💡">💡</button>
+      <button class="emoji-btn" data-emoji="📝">📝</button>
+      <button class="emoji-btn" data-emoji="🎯">🎯</button>
+      <button class="emoji-btn" data-emoji="🌟">🌟</button>
+      <button class="emoji-btn" data-emoji="🎵">🎵</button>
+      <button class="emoji-btn" data-emoji="🍕">🍕</button>
+    </div>
+
+    <input type="text" id="newBoardName" placeholder="Например: Мозговой штурм" autocomplete="off">
+    
+    <div class="modal-actions">
+      <button class="btn-cancel" id="cancelCreateBtn">Отмена</button>
+      <button class="btn-confirm" id="confirmCreateBtn">Создать</button>
+    </div>
+  </div>
+</div>
+
+  <!-- Модалка подтверждения удаления -->
+  <div class="modal-overlay" id="deleteModal">
+    <div class="modal">
+      <h2>Удалить доску?</h2>
+      <p id="deleteModalText">Вы уверены, что хотите удалить эту доску? Это действие нельзя отменить.</p>
+      <div class="modal-actions">
+        <button class="btn-cancel" id="cancelDeleteBtn">Отмена</button>
+        <button class="btn-confirm btn-danger" id="confirmDeleteBtn">Удалить</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Скрипты -->
+  <script src="js/common.js"></script>
+  <script src="js/boards.js"></script>
+</body>
+</html>

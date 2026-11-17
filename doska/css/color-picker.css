@@ -1,0 +1,54 @@
+/* ===== ПАЛИТРА (открывается рядом с плюсиком) ===== */
+.cp-pop {
+  position: fixed; z-index: 10000; width: 232px; padding: 12px;
+  display: flex; flex-direction: column; gap: 12px;
+  background: var(--glass-strong); border: 1px solid var(--border); border-radius: 16px;
+  box-shadow: var(--shadow-pop);
+  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+  opacity: 0; transform: scale(0.96);
+  transition: opacity 0.15s ease, transform 0.15s ease;
+  user-select: none; -webkit-user-select: none;
+}
+.cp-pop.show { opacity: 1; transform: scale(1); }
+.cp-pop * { transition: none; }
+
+.cp-sv {
+  position: relative; width: 100%; height: 140px; border-radius: 10px;
+  cursor: crosshair; touch-action: none;
+  background:
+    linear-gradient(to top, #000, rgba(0,0,0,0)),
+    linear-gradient(to right, #fff, hsl(var(--h, 260), 100%, 50%));
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,0.1);
+}
+.cp-thumb {
+  position: absolute; width: 16px; height: 16px; border-radius: 50%;
+  border: 2px solid #fff; box-shadow: 0 0 0 1px rgba(0,0,0,0.35), 0 2px 6px rgba(0,0,0,0.35);
+  transform: translate(-50%, -50%); pointer-events: none;
+}
+.cp-hue {
+  position: relative; height: 14px; border-radius: 7px; cursor: pointer; touch-action: none;
+  background: linear-gradient(to right, #f00 0%, #ff0 17%, #0f0 33%, #0ff 50%, #00f 67%, #f0f 83%, #f00 100%);
+}
+.cp-hue .cp-thumb { top: 50%; }
+
+.cp-row { display: flex; align-items: center; gap: 8px; }
+.cp-preview { width: 34px; height: 34px; border-radius: 10px; flex-shrink: 0; box-shadow: inset 0 0 0 1px rgba(0,0,0,0.15); }
+.cp-hex {
+  flex: 1; min-width: 0; width: 0; height: 34px; padding: 0 10px; font-size: 13px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  text-transform: uppercase; border-radius: 8px;
+}
+.cp-done {
+  height: 34px; padding: 0 12px; border: none; border-radius: 8px; cursor: pointer;
+  font-size: 13px; font-weight: 600; color: #fff;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+}
+.cp-done:hover { box-shadow: 0 4px 12px rgba(124, 92, 255, 0.4); }
+
+.cp-recent { display: flex; flex-wrap: wrap; gap: 6px; }
+.cp-recent:empty { display: none; }
+.cp-swatch {
+  width: 24px; height: 24px; border-radius: 8px; border: none; padding: 0; cursor: pointer;
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,0.15);
+}
+.cp-swatch:hover { transform: scale(1.12); }

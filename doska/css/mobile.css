@@ -1,0 +1,165 @@
+/* ===== ОБЩЕЕ ДЛЯ ЭКРАНОВ С КАСАНИЕМ И РЕЖИМА ПРИЛОЖЕНИЯ ===== */
+* { -webkit-tap-highlight-color: transparent; }
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+
+/* Безопасные зоны (вырез камеры, «чёлка», полоска жестов) */
+.header {
+  padding-top: max(16px, env(safe-area-inset-top));
+  padding-left: max(24px, env(safe-area-inset-left));
+  padding-right: max(24px, env(safe-area-inset-right));
+}
+
+/* Доска ведёт себя как приложение: не выделяется, не тянется, не зумится страницей */
+.board-body {
+  overscroll-behavior: none;
+  -webkit-user-select: none; user-select: none;
+  -webkit-touch-callout: none;
+}
+.board-body input, .board-body textarea,
+.board-body [contenteditable="true"], .sticker-content, .chat-text, .member-name, .member-status-text {
+  -webkit-user-select: text; user-select: text;
+}
+.canvas-wrapper { touch-action: none; }
+
+/* Там, где нет мыши, подсказки по наведению не нужны — всё видно сразу */
+@media (hover: none) {
+  .image-delete { opacity: 1; }
+  .board-actions { opacity: 1; }
+}
+
+/* ===== КРУПНЫЕ ЭЛЕМЕНТЫ ПОД ПАЛЕЦ ===== */
+@media (pointer: coarse) {
+  .sticker { width: 320px; height: 260px; min-width: 320px; min-height: 220px; }
+  .sticker-handle { height: 26px; }
+  .sticker-footer { height: 46px; }
+  .sticker-panel { height: 46px; right: 44px; gap: 2px; }
+  .sticker-panel button, .color-picker { width: 34px; height: 34px; }
+  .sticker-font-size { width: 54px; height: 34px; }
+  .sticker-resize::after { content: ''; position: absolute; top: -16px; left: -16px; right: 0; bottom: 0; } /* большая зона касания */
+  .color-menu-item, .color-menu .color-menu-plus { width: 34px !important; height: 34px !important; }
+  .color-menu { gap: 10px; }
+
+  .reaction-option { width: 40px; height: 40px; font-size: 20px; }
+  .reaction-menu { width: 214px; }
+  .size-option { width: 52px; height: 44px; }
+  .color-grid-item { width: 42px; height: 42px; }
+  .hover-emoji { width: 38px; height: 38px; font-size: 18px; }
+  .member-remove { width: 36px; height: 36px; }
+  .preview-chip { padding: 10px 16px; }
+  .image-delete { width: 30px; height: 30px; top: -12px; right: -12px; font-size: 18px; }
+  .image-resize { width: 28px; height: 28px; }
+  .file-actions button { padding: 10px; }
+  .cp-sv { height: 160px; }
+  .cp-hue { height: 20px; border-radius: 10px; }
+  .cp-thumb { width: 22px; height: 22px; }
+  .cp-done { height: 40px; } .cp-hex { height: 40px; } .cp-preview { width: 40px; height: 40px; }
+}
+
+/* ===== ТЕЛЕФОН (узкий экран или телефон «на боку») ===== */
+@media (max-width: 768px), (pointer: coarse) and (max-height: 500px) {
+
+  /* Кнопка темы на странице входа */
+  .theme-toggle {
+    position: fixed !important;
+    top: max(16px, env(safe-area-inset-top)) !important;
+    right: max(16px, env(safe-area-inset-right)) !important;
+    left: auto !important; transform: none !important;
+    width: 44px !important; height: 44px !important; z-index: 9999 !important;
+  }
+
+  /* Шапка */
+  .header { padding: max(10px, env(safe-area-inset-top)) max(12px, env(safe-area-inset-right)) 10px max(12px, env(safe-area-inset-left)); }
+  .header-left { gap: 8px; min-width: 0; }
+  .btn-back span { display: none; }
+  .btn-back, .btn-invite, .btn-secondary, .btn-install, .theme-toggle-inline, .btn-logout { min-height: 40px; touch-action: manipulation; }
+  .btn-back { min-width: 40px; justify-content: center; }
+  .board-name { font-size: 15px; max-width: 110px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .btn-invite, .btn-secondary, .btn-install { padding: 8px 10px; min-width: 40px; justify-content: center; }
+  .btn-invite span, .btn-secondary span, .btn-install span { display: none; }
+  .header-right { gap: 6px; }
+  .presence { padding: 2px; }
+  .presence-text { display: none; }
+  .presence-avatar:nth-child(n+3) { display: none; }
+
+  /* Панель инструментов — снизу, кнопки растягиваются по ширине экрана */
+  .board-layout { flex-direction: column-reverse; }
+  .toolbar {
+    width: 100%; height: auto; flex-shrink: 0;
+    flex-direction: row; justify-content: space-between; align-items: center;
+    border-right: none; border-top: 1px solid var(--border);
+    padding: 4px max(6px, env(safe-area-inset-right)) calc(4px + env(safe-area-inset-bottom)) max(6px, env(safe-area-inset-left));
+    gap: 2px; z-index: 200;
+  }
+  .toolbar-divider { width: 1px; height: 26px; margin: 0 1px; flex-shrink: 0; }
+  .tool, .dropdown { flex: 1 1 0; width: auto; min-width: 30px; max-width: 50px; height: 46px; touch-action: manipulation; }
+  .dropdown-trigger { width: 100%; height: 46px; }
+
+  /* Меню инструментов (цвет, толщина, реакции) открываются вверх */
+  .dropdown-menu {
+    left: 50%; top: auto; bottom: calc(100% + 12px);
+    transform: translate(calc(-50% + var(--shift, 0px)), 8px);
+  }
+  .dropdown-menu::before { left: 0; top: 100%; width: 100%; height: 16px; }
+  .dropdown:hover .dropdown-menu, .dropdown.open .dropdown-menu, .dropdown.pinned .dropdown-menu {
+    transform: translate(calc(-50% + var(--shift, 0px)), 0);
+  }
+
+  .toast { bottom: calc(84px + env(safe-area-inset-bottom)); max-width: 92vw; }
+  .preview-banner { top: calc(64px + env(safe-area-inset-top)); max-width: 94vw; font-size: 12px; }
+
+  .canvas-wrapper { height: 100%; }
+
+  /* Чат — на весь экран */
+  .chat {
+    position: fixed; top: 0; right: -100%; width: 100%; height: 100vh; height: 100dvh;
+    z-index: 1000; transition: right 0.3s ease; border-left: none;
+    padding-top: env(safe-area-inset-top);
+  }
+  .chat.collapsed { width: 100%; right: -100%; }
+  .chat:not(.collapsed) { right: 0; }
+  .chat-input { padding-bottom: calc(12px + env(safe-area-inset-bottom)); }
+  .chat-open {
+    bottom: calc(66px + env(safe-area-inset-bottom)); right: max(16px, env(safe-area-inset-right));
+    width: 52px; height: 52px; touch-action: manipulation;
+  }
+  .chat-toggle { width: 40px; height: 40px; background: var(--input-bg); }
+  .chat-toggle svg { transform: rotate(180deg); }
+
+  /* iOS не будет приближать страницу при вводе текста */
+  input, textarea, select:not(.sticker-font-size) { font-size: 16px !important; }
+
+  /* Окна на весь низ экрана («шторка») с поддержкой жестов-зон */
+  .modal { max-height: 92vh; max-height: 92dvh; overflow-y: auto; }
+  .members-modal { max-height: 92dvh; }
+}
+
+/* Узкие телефоны: окна выезжают снизу */
+@media (max-width: 600px) {
+  .modal-overlay { align-items: flex-end; }
+  .modal, .members-modal {
+    width: 100% !important; max-width: 100% !important;
+    border-radius: 22px 22px 0 0; border-bottom: none;
+    padding: 20px 20px calc(20px + env(safe-area-inset-bottom));
+    transform: translateY(100%);
+    transition: transform 0.38s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .modal-overlay.show .modal { transform: translateY(0); }
+  .modal::before { content: ''; display: block; width: 42px; height: 4px; border-radius: 2px; background: var(--border); margin: -8px auto 14px; }
+  .modal-actions button { min-height: 44px; }
+  .member-item { padding: 10px 12px; }
+  .member-info { min-width: 0; }
+  .member-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 120px; }
+  .role-pill span { display: none; }
+  .role-pill { padding: 6px 8px; }
+}
+
+@media (max-width: 380px) {
+  .board-name { max-width: 84px; }
+  .presence-avatar:nth-child(n+2) { display: none; }
+}
+
+/* Режим установленного приложения: без лишних отступов браузера */
+@media (display-mode: standalone) {
+  body { -webkit-user-select: none; user-select: none; }
+  input, textarea, [contenteditable="true"] { -webkit-user-select: text; user-select: text; }
+}
